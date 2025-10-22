@@ -14,7 +14,7 @@ permissions:
   pull-requests: write
   contents: write
   security-events: write
-  id-token: write                   #  Required for OIDC authentication
+  id-token: write                   # ✅ Required for OIDC authentication
 
 jobs:
   frogbot-scan:
@@ -23,9 +23,14 @@ jobs:
       matrix:
         branch: ["main"]
     steps:
+      - name: "Checkout Repository"
+        continue-on-error: true
+        uses: actions/checkout@v4
       - uses: jfrog/frogbot@v2
+
         with:
-          oidc-provider-name: "jfrog-githuboidc"    #  Use the provider name configured in JFrog
+          oidc-provider-name: "jfrog-githuboidc"    # ✅ Use the provider name configured in JFrog
         env:
-          JF_URL: ${{ secrets.JF_URL }}        # JFrog Platform URL
+          JF_URL: ${{ vars.ARTIFACTORY_URL }}        # JFrog Platform URL
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JF_WORKING_DIR: JFTD-110-GitHub_Actions_for_JFrog/helloworld_npm
