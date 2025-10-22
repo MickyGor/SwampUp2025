@@ -35,16 +35,13 @@ jobs:
         continue-on-error: true
         uses: actions/checkout@v4
 
-      # TODO: Lab 1.1 - Replace this commented section with the snippet from "Step 1: Create the Github OIDC Integration object in your JFrog Platform instance"
-      # 
-      # Instructions:
-      # 1. Go to your JFrog Platform instance
-      # 2. Navigate to Administration -> General Management -> Manage Integrations -> New Integration -> OpenID Connect tab -> New Integration
-      # 3. Select "Open ID Connect" in the drop-down menu
-      # 4. Configure the OIDC provider with your settings
-      # 5. Copy the "Show Snippet" YAML configuration
-      # 6. Replace this commented section with the copied snippet
-      #
+- uses: jfrog/setup-jfrog-cli@v4
+    env:
+        JF_URL: ${{ARTIFACTORY_URL}} 
+    with:
+        oidc-provider-name: jfrog-githuboidc 
+        
+
       - name: "Get Artifactory Access Token and Setup JFrog CLI"
         uses: jfrog/setup-jfrog-cli@v4
         id: setup-cli
